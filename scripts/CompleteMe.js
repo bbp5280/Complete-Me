@@ -9,6 +9,10 @@ class CompleteMe {
     this.dictionary.push(word);
     this.numOfWords ++;
   }
+
+  suggest(word) {
+
+  }
 }
 
 module.exports = CompleteMe
