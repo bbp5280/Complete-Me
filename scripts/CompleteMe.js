@@ -1,9 +1,13 @@
 class CompleteMe {
 
   constructor () {
-    this.words = []
+    this.dictionary = [];
+    this.numOfWords = 0;
+  }
 
-
+  insert(word) {
+    this.dictionary.push(word);
+    this.numOfWords ++;
   }
 }
 
