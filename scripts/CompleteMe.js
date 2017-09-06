@@ -17,6 +17,14 @@ class CompleteMe {
 
     return suggested
   }
+
+  populate (dictionary) {
+    dictionary.forEach((word) => {
+      this.insert(word);
+    });
+  }
 }
+
+
 
 module.exports = CompleteMe

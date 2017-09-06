@@ -1,5 +1,8 @@
 const { assert } = require ('chai');
 const CompleteMe = require ('../scripts/completeMe.js');
+const text = "/usr/share/dict/words";
+const fs = require('fs');
+const dictionary = fs.readFileSync(text).toString().trim().split('\n');
 
 let completion;
 
@@ -23,6 +26,11 @@ describe('CompleteMe', () => {
 
     assert.isFunction(completion.suggest);
   });
+
+  it('should have a function called populate', () => {
+
+    assert.isFunction(completion.populate);
+  });
 })
 
 describe('insert', () => {
@@ -45,6 +53,7 @@ describe('insert', () => {
     completion.insert('apple')
     assert.equal(completion.numOfWords, 2);
   });
+
 })
 
 describe('suggest', () => {
@@ -74,5 +83,18 @@ describe('suggest', () => {
     completion.insert('apple')
     assert.deepEqual(completion.suggest('piz'), ['pizza', 'pizzeria']);
   });
+
+  describe('populate', () => {
+
+    beforeEach ( ()=> {
+      completion = new CompleteMe
+    })
+
+    it('should load a dictionary of words', () => {
+
+      completion.populate(dictionary)
+      assert.equal(completion.numOfWords, 235886);
+    });
+  })
 
 })
