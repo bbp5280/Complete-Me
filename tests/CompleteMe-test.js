@@ -1,4 +1,4 @@
-const { assert, expect, should } = require ('chai');
+const { assert } = require ('chai');
 const CompleteMe = require ('../scripts/completeMe.js');
 
 let completion;
@@ -56,9 +56,23 @@ describe('suggest', () => {
   it('should return words when passed partial strings', () => {
 
     completion.insert('pizza')
-    // completion.suggest('pizz')
     assert.deepEqual(completion.suggest('pizz'), ['pizza']);
   });
 
+  it('should return different words when passed partial strings', () => {
+
+    completion.insert('pizza')
+    completion.insert('apple')
+    assert.deepEqual(completion.suggest('ap'), ['apple']);
+  });
+
+  it('should return muliple words when partial strings that start the same',
+  () => {
+
+    completion.insert('pizza')
+    completion.insert('pizzeria')
+    completion.insert('apple')
+    assert.deepEqual(completion.suggest('piz'), ['pizza', 'pizzeria']);
+  });
 
 })
