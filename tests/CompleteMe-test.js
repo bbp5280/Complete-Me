@@ -95,6 +95,14 @@ describe('suggest', () => {
       completion.populate(dictionary)
       assert.equal(completion.numOfWords, 235886);
     });
+
+    it('should return muliple words when partial strings that start the same',
+    () => {
+
+      completion.populate(dictionary)
+      assert.deepEqual(completion.suggest('piz'),
+      ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]);
+    });
   })
 
 })
