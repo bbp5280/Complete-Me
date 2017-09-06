@@ -11,12 +11,10 @@ class CompleteMe {
   }
 
   suggest(partialWord) {
-    let suggested =  this.dictionary.filter((word) =>{
-      return (word.indexOf(partialWord) > -1)
-
-
+    let suggested = this.dictionary.filter ((word) => {
+      return (word.indexOf(partialWord) > -1);
     })
-    console.log(suggested)
+
     return suggested
   }
 }
