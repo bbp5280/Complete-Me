@@ -47,7 +47,7 @@ describe('insert', () => {
   });
 })
 
-describe('insert', () => {
+describe('suggest', () => {
 
   beforeEach ( ()=> {
     completion = new CompleteMe
@@ -56,7 +56,8 @@ describe('insert', () => {
   it('should return words when passed partial strings', () => {
 
     completion.insert('pizza')
-    assert.equal(completion.dictionary[0], 'pizza');
+    // completion.suggest('pizz')
+    assert.deepEqual(completion.suggest('pizz'), ['pizza']);
   });
 
 
