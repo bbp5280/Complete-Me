@@ -1,5 +1,5 @@
 const { assert } = require ('chai');
-const CompleteMe = require ('../scripts/completeMe.js');
+const CompleteMe = require ('../lib/completeMe.js');
 const text = "/usr/share/dict/words";
 const fs = require('fs');
 const dictionary = fs.readFileSync(text).toString().trim().split('\n');
@@ -42,10 +42,10 @@ describe('insert', () => {
   it('number of words should increase by 1 when a word is inserted', () => {
 
     completion.insert('pizza')
-    assert.equal(completion.numOfWords, 1);
+    assert.equal(completion.wordCount, 1);
 
     completion.insert('apple')
-    assert.equal(completion.numOfWords, 2);
+    assert.equal(completion.wordCount, 2);
   });
 
 })
@@ -61,17 +61,17 @@ describe('suggest', () => {
     completion.insert('pizza')
     completion.insert('pizzaria')
     // completion.suggest('piz')
-    assert.equal(completion.suggest('pizz'), ['pizza', 'pizzaria']);
+    assert.deepEqual(completion.suggest('pizz'), ['pizza', 'pizzaria']);
   });
 
-  it.skip('should return different words when passed partial strings', () => {
+  it('should return different words when passed partial strings', () => {
 
     completion.insert('pizza')
     completion.insert('apple')
     assert.deepEqual(completion.suggest('ap'), ['apple']);
   });
 
-  it.skip('should return muliple words when partial strings that start the same',
+  it('should return muliple words when partial strings that start the same',
   () => {
 
     completion.insert('pizza')
@@ -89,11 +89,11 @@ describe('suggest', () => {
     it('should load a dictionary of words', (done) => {
 
       completion.populate(dictionary)
-      assert.equal(completion.numOfWords, 235886);
+      assert.equal(completion.wordCount, 235886);
       done()
     }).timeout(40000)
 
-    it.skip('should return muliple words when partial strings that start the same', () => {
+    it('should return muliple words when partial strings that start the same', () => {
 
       completion.populate(dictionary)
       assert.deepEqual(completion.suggest('piz'),
