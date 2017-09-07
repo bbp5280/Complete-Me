@@ -1,7 +1,7 @@
 class Branch {
   constructor(letter = null) {
     this.letter = letter;
-    this.isFinishedWord = false;
+    this.isWord = false;
     this.child = {};
   }
 }
