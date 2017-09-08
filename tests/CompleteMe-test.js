@@ -101,12 +101,11 @@ describe('suggest', () => {
     assert.deepEqual(completion.suggest('star'), ['star', 'stars']);
   });
 
+  it('should return word as lower case to recuce duplicates', () => {
 
-  it('should take uppercase partial string and still return suggestions', () => {
-
-    completion.insert('star')
+    completion.insert('Star')
     completion.insert('stars')
-    assert.deepEqual(completion.suggest('Star'), ['star', 'stars']);
+    assert.deepEqual(completion.suggest('star'), ['star', 'stars']);
   });
 
 
