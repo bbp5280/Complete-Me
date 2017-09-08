@@ -108,6 +108,13 @@ describe('suggest', () => {
     assert.deepEqual(completion.suggest('star'), ['star', 'stars']);
   });
 
+  it('should take an capital letter in the partial string and return suggestions as lowercase', () => {
+
+    completion.insert('star')
+    completion.insert('stars')
+    assert.deepEqual(completion.suggest('Star'), ['star', 'stars']);
+  });
+
 
   it('should return muliple words when partial strings that start the same', () => {
     expect(completion.suggest).to.be.a('function');
