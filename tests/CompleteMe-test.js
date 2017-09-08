@@ -24,7 +24,7 @@ describe('CompleteMe', () => {
 
   it('should have a function called suggest', () => {
 
-    assert(completion.suggest);
+    assert.isFunction(completion.suggest);
   });
 
   it('should have a function called populate', () => {
