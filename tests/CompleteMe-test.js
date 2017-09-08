@@ -148,7 +148,7 @@ describe('suggest', () => {
       done()
     }).timeout(40000)
 
-    it('should return muliple words when partial strings that start the same', () => {
+    it('should return muliple words when passed a partial strings that start the same letters', () => {
 
       completion.populate(dictionary)
       assert.deepEqual(completion.suggest('piz'),
