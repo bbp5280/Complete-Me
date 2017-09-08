@@ -1,5 +1,5 @@
 {
-  "name": "TDD",
+  "name": "CompleteMe-bp",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,8 +10,8 @@
     "test": "mocha --compilers js:babel-core/register tests"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Ben Porter",
+  "license": "WTFPL",
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",

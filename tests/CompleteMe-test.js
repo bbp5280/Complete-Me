@@ -1,4 +1,4 @@
-const { assert } = require ('chai');
+const { assert, expect } = require ('chai');
 const CompleteMe = require ('../lib/completeMe.js');
 const text = "/usr/share/dict/words";
 const fs = require('fs');
@@ -31,6 +31,11 @@ describe('CompleteMe', () => {
 
     assert.isFunction(completion.populate);
   });
+
+  it('should have a function called select', () => {
+
+    assert.isFunction(completion.select);
+  });
 })
 
 describe('insert', () => {
@@ -48,6 +53,16 @@ describe('insert', () => {
     assert.equal(completion.wordCount, 2);
   });
 
+  it('should have a root node defaulted to null', () => {
+    expect(completion.root).to.equal(null);
+  });
+
+  it('insert should assign a root node/branch', () => {
+    expect(completion.root).to.equal(null);
+    completion.insert('word');
+    expect(completion.root).not.to.equal(null);
+  })
+
 })
 
 describe('suggest', () => {
@@ -64,21 +79,30 @@ describe('suggest', () => {
     assert.deepEqual(completion.suggest('pizz'), ['pizza', 'pizzaria']);
   });
 
-  it('should return different words when passed partial strings', () => {
+  it('should return different words when passed a different partial strings', () => {
 
     completion.insert('pizza')
     completion.insert('apple')
     assert.deepEqual(completion.suggest('ap'), ['apple']);
   });
 
-  it('should return muliple words when partial strings that start the same',
-  () => {
+  it('should return muliple words when partial strings that start the same', () => {
+    expect(completion.suggest).to.be.a('function');
 
-    completion.insert('pizza')
-    completion.insert('pizzeria')
-    completion.insert('apple')
-    assert.deepEqual(completion.suggest('piz'), ['pizza', 'pizzeria']);
-  });
+    completion.insert('string')
+
+    completion.insert('stringy')
+    completion.insert('strap')
+    completion.insert('star')
+    completion.insert('star')
+    completion.insert('steel')
+    completion.insert('stop')
+    completion.insert('street')
+    completion.insert('stratus')
+
+
+  assert.deepEqual(completion.suggest('st'), ['string', 'stringy', 'strap', 'stratus', 'street', 'star', 'steel', 'stop'])
+  })
 
   describe('populate', () => {
 
@@ -99,6 +123,46 @@ describe('suggest', () => {
       assert.deepEqual(completion.suggest('piz'),
       ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]);
     });
+  })
+
+  describe('Select', () => {
+
+    beforeEach ( ()=> {
+      completion = new CompleteMe
+    })
+
+    it("select should increment frequency", () => {
+      completion.insert("stop")
+
+      expect(completion.root.child.s.child.t.child.o.child.p.frequency).to.equal(0)
+
+      completion.select("stop")
+
+     expect(completion.root.child.s.child.t.child.o.child.p.frequency).to.equal(1)
+    })
+
+    it('select should order and array of 2 words', () => {
+      completion.populate(['start', 'stop'])
+
+      assert.deepEqual(completion.suggest('st'), ['start', 'stop'])
+
+      completion.select('stop')
+
+      assert.deepEqual(completion.suggest('st'), ['stop', 'start'])
+    })
+    it("select should order and array of 4 words", () => {
+    completion.populate(['stoop', 'stopping', 'stopped', 'stop'])
+
+
+      completion.select("stop")
+      completion.select("stop")
+      completion.select("stop")
+      completion.select("stopped")
+      completion.select("stopped")
+      completion.select("stopping")
+
+     assert.deepEqual(completion.suggest('st'), ['stop', 'stopped', 'stopping', 'stoop'])
+    })
   })
 
 })
