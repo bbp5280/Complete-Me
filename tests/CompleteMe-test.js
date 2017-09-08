@@ -53,6 +53,15 @@ describe('insert', () => {
     assert.equal(completion.wordCount, 2);
   });
 
+  it('inserting the same word should not increase the count', () => {
+
+    completion.insert('pizza')
+    assert.equal(completion.wordCount, 1);
+
+    completion.insert('pizza')
+    assert.equal(completion.wordCount, 1);
+  });
+
   it('should have a root node defaulted to null', () => {
     expect(completion.root).to.equal(null);
   });
@@ -75,7 +84,6 @@ describe('suggest', () => {
 
     completion.insert('pizza')
     completion.insert('pizzaria')
-    // completion.suggest('piz')
     assert.deepEqual(completion.suggest('pizz'), ['pizza', 'pizzaria']);
   });
 
@@ -85,6 +93,22 @@ describe('suggest', () => {
     completion.insert('apple')
     assert.deepEqual(completion.suggest('ap'), ['apple']);
   });
+
+  it('should return word and words beyond when the partial string is a word', () => {
+
+    completion.insert('star')
+    completion.insert('stars')
+    assert.deepEqual(completion.suggest('star'), ['star', 'stars']);
+  });
+
+
+  it('should take uppercase partial string and still return suggestions', () => {
+
+    completion.insert('star')
+    completion.insert('stars')
+    assert.deepEqual(completion.suggest('Star'), ['star', 'stars']);
+  });
+
 
   it('should return muliple words when partial strings that start the same', () => {
     expect(completion.suggest).to.be.a('function');
@@ -101,8 +125,9 @@ describe('suggest', () => {
     completion.insert('stratus')
 
 
-  assert.deepEqual(completion.suggest('st'), ['string', 'stringy', 'strap', 'stratus', 'street', 'star', 'steel', 'stop'])
+    assert.deepEqual(completion.suggest('st'), ['string', 'stringy', 'strap', 'stratus', 'street', 'star', 'steel', 'stop'])
   })
+
 
   describe('populate', () => {
 
@@ -113,7 +138,7 @@ describe('suggest', () => {
     it('should load a dictionary of words', (done) => {
 
       completion.populate(dictionary)
-      assert.equal(completion.wordCount, 235886);
+      assert.equal(completion.wordCount, 234371);
       done()
     }).timeout(40000)
 
@@ -138,7 +163,7 @@ describe('suggest', () => {
 
       completion.select("stop")
 
-     expect(completion.root.child.s.child.t.child.o.child.p.frequency).to.equal(1)
+      expect(completion.root.child.s.child.t.child.o.child.p.frequency).to.equal(1)
     })
 
     it('select should order and array of 2 words', () => {
@@ -151,7 +176,7 @@ describe('suggest', () => {
       assert.deepEqual(completion.suggest('st'), ['stop', 'start'])
     })
     it("select should order and array of 4 words", () => {
-    completion.populate(['stoop', 'stopping', 'stopped', 'stop'])
+      completion.populate(['stoop', 'stopping', 'stopped', 'stop'])
 
 
       completion.select("stop")
@@ -161,7 +186,7 @@ describe('suggest', () => {
       completion.select("stopped")
       completion.select("stopping")
 
-     assert.deepEqual(completion.suggest('st'), ['stop', 'stopped', 'stopping', 'stoop'])
+      assert.deepEqual(completion.suggest('st'), ['stop', 'stopped', 'stopping', 'stoop'])
     })
   })
 
